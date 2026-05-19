@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://sg2tbqe125k"]
+
+[ext_resource type="Script" uid="uid://b4a5oerkeutwh" path="res://Scripts/ZeusInspector/Entity.cs" id="1_glv2v"]
+[ext_resource type="Script" uid="uid://cci0hmp1pw7mt" path="res://Scripts/ZeusInspector/PlayerController.cs" id="1_uu6xs"]
+[ext_resource type="Texture2D" uid="uid://o60g0ptjh0c8" path="res://fiona.jpg" id="2_r0du0"]
+
+[sub_resource type="Resource" id="Resource_r0du0"]
+script = ExtResource("1_glv2v")
+metadata/_custom_type_script = "uid://b4a5oerkeutwh"
+
+[node name="Entity" type="Node" unique_id=460769669]
+
+[node name="PlayerController" type="CharacterBody3D" parent="." unique_id=668940065]
+script = ExtResource("1_uu6xs")
+PlayerEntity = SubResource("Resource_r0du0")
+
+[node name="TextureRect" type="TextureRect" parent="PlayerController" unique_id=1127496307]
+offset_right = 58.0
+offset_bottom = 63.0
+texture = ExtResource("2_r0du0")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Cosa" type="Node" parent="." unique_id=609545812]
