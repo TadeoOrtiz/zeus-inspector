@@ -9,17 +9,17 @@ namespace ZeusInspector.Editor;
 [Tool]
 public partial class InspectorEditor : EditorInspectorPlugin
 {
-    private Dictionary<Type, Type> _editorMap = new();
-    private Stack<Editor> _editorStack = new();
+    private readonly Dictionary<Type, Type> editorMap = [];
+    private readonly Stack<Editor> editorStack = new();
 
     public InspectorEditor()
     {
-        _UpdateEditorMap();
+        UpdateEditorMap();
     }
 
-    private void _UpdateEditorMap()
+    private void UpdateEditorMap()
     {
-        _editorMap.Clear();
+        editorMap.Clear();
         var assembly = Assembly.GetExecutingAssembly();
         var editorTypes = assembly.GetTypes()
             .Where(t => t.IsClass && !t.IsAbstract && typeof(Editor).IsAssignableFrom(t) && t != typeof(Editor));
@@ -29,23 +29,23 @@ public partial class InspectorEditor : EditorInspectorPlugin
             var attr = type.GetCustomAttribute<CustomEditorAttribute>();
             if (attr != null)
             {
-                _editorMap[attr.EditorType] = type;
+                editorMap[attr.EditorType] = type;
             }
         }
     }
 
-    private Type _GetTargetType(GodotObject @object)
+    private Type GetTargetType(GodotObject @object)
     {
         if (@object == null) return null;
 
         var type = @object.GetType();
-        if (_editorMap.ContainsKey(type)) return type;
+        if (editorMap.ContainsKey(type)) return type;
 
         var script = @object.GetScript().As<Script>();
         if (script != null)
         {
             string className = System.IO.Path.GetFileNameWithoutExtension(script.ResourcePath);
-            return _editorMap.Keys.FirstOrDefault(t => t.Name == className);
+            return editorMap.Keys.FirstOrDefault(t => t.Name == className);
         }
 
         return null;
@@ -53,19 +53,19 @@ public partial class InspectorEditor : EditorInspectorPlugin
 
     public override bool _CanHandle(GodotObject @object)
     {
-        return _GetTargetType(@object) != null;
+        return GetTargetType(@object) != null;
     }
 
     public override void _ParseBegin(GodotObject @object)
     {
-        var targetType = _GetTargetType(@object);
-        if (targetType != null && _editorMap.TryGetValue(targetType, out Type editorType))
+        var targetType = GetTargetType(@object);
+        if (targetType != null && editorMap.TryGetValue(targetType, out Type editorType))
         {
             try
             {
                 var editor = (Editor)Activator.CreateInstance(editorType);
                 editor.Target = @object;
-                _editorStack.Push(editor);
+                editorStack.Push(editor);
             }
             catch (Exception e)
             {
@@ -76,9 +76,9 @@ public partial class InspectorEditor : EditorInspectorPlugin
 
     public override void _ParseCategory(GodotObject @object, string category)
     {
-        if (_editorStack.Count > 0)
+        if (editorStack.Count > 0)
         {
-            var currentEditor = _editorStack.Peek();
+            var currentEditor = editorStack.Peek();
             if (currentEditor.Target == @object && !currentEditor.WasGuiAdded)
             {
                 var gui = currentEditor.CreateInspectorGUI();
@@ -93,17 +93,17 @@ public partial class InspectorEditor : EditorInspectorPlugin
 
     public override bool _ParseProperty(GodotObject @object, Variant.Type type, string name, PropertyHint hintType, string hintString, PropertyUsageFlags usageFlags, bool wide)
     {
-        if (_editorStack.Count > 0)
+        if (editorStack.Count > 0)
         {
-            var currentEditor = _editorStack.Peek();
-            
+            var currentEditor = editorStack.Peek();
+
             if (currentEditor.Target == @object)
             {
                 if (currentEditor.ShouldHideProperty(name))
                 {
                     return true;
                 }
-                
+
                 if (currentEditor.CreatePropertyEditor(name) is EditorProperty customEditor)
                 {
                     AddPropertyEditor(name, customEditor);
@@ -117,9 +117,9 @@ public partial class InspectorEditor : EditorInspectorPlugin
 
     public override void _ParseEnd(GodotObject @object)
     {
-        if (_editorStack.Count > 0 && _editorStack.Peek().Target == @object)
+        if (editorStack.Count > 0 && editorStack.Peek().Target == @object)
         {
-            _editorStack.Pop();
+            editorStack.Pop();
         }
     }
 }

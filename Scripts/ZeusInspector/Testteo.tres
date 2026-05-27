@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Entity" format=3 uid="uid://6ea50oi0gyp4"]
+
+[ext_resource type="Script" uid="uid://b4a5oerkeutwh" path="res://Scripts/ZeusInspector/Entity.cs" id="1_ptadt"]
+
+[resource]
+script = ExtResource("1_ptadt")
+Speed = 0.45
+Health = 10
+Armor = 3
+Mana = 7
+metadata/_custom_type_script = "uid://b4a5oerkeutwh"
