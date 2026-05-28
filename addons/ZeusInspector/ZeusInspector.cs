@@ -1,4 +1,6 @@
 #if TOOLS
+using System.Linq;
+using System.Reflection;
 using Godot;
 using ZeusInspector.Editor;
 
@@ -9,49 +11,31 @@ namespace ZeusInspector;
 public partial class ZeusInspector : EditorPlugin
 {
 
-    private InspectorEditor inspectorEditor;
+    private ZeusInspectorEditorPlguin inspectorEditor;
 
-    Control MainPanelInstance;
 
     public override void _EnterTree()
     {
-        inspectorEditor = new InspectorEditor();
+        inspectorEditor = new ZeusInspectorEditorPlguin();
 
         AddInspectorPlugin(inspectorEditor);
 
-        MainPanelInstance = new Control();
-        // Add the main panel to the editor's main viewport.
-        EditorInterface.Singleton.GetEditorMainScreen().AddChild(MainPanelInstance);
-        // Hide the main panel. Very much required.
-        _MakeVisible(false);
-    }
-
-    public override bool _HasMainScreen()
-    {
-        return true;
-    }
-
-    public override void _MakeVisible(bool visible)
-    {
-        if (MainPanelInstance != null)
-        {
-            MainPanelInstance.Visible = visible;
-        }
-    }
-
-    public override string _GetPluginName()
-    {
-        return "Main Screen Plugin";
     }
 
     public override void _ExitTree()
     {
         RemoveInspectorPlugin(inspectorEditor);
+    }
 
+    private void UpdateEditorMap()
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        var editorTypes = assembly.GetTypes()
+            .Where(t => t.IsClass && !t.IsAbstract && typeof(CustomInspector).IsAssignableFrom(t) && t != typeof(CustomInspector));
 
-        if (MainPanelInstance != null)
+        foreach (var type in editorTypes)
         {
-            MainPanelInstance.QueueFree();
+            var attr = type.GetCustomAttribute<CustomEditorAttribute>();
         }
     }
 

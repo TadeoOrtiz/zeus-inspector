@@ -1,4 +1,5 @@
 using Godot;
+using ZeusInspector.Attributes;
 
 
 
@@ -7,10 +8,17 @@ public partial class Entity : Resource
 {
 
     [Export]
-    public int Vida;
+    [HorizontalGroup("General", showTitle: true), LabelRatio(.2f)]
+    [PreviewField(64)]
+    public Texture2D Name;
     [Export]
-    public string Equipo;
+    [VerticalGroup("General/Left"), LabelRatio(.2f)]
+    public int Health;
     [Export]
-    public Curve VidaCurve;
+    [VerticalGroup("General/Left"), LabelRatio(.2f)]
+    public int Armor;
+    [Export]
+    [VerticalGroup("General/Left"), LabelRatio(.2f)]
+    public int Mana;
 
 }

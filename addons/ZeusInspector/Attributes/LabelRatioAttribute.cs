@@ -4,10 +4,13 @@ using Godot;
 namespace ZeusInspector.Attributes;
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-public abstract class InspectorAttribute : Attribute
+public class LabelRatioAttribute(float ratio) : InspectorAttribute
 {
-    public abstract void Apply(EditorProperty editor);
-
-
+    public override void Apply(EditorProperty editor)
+    {
+        editor.NameSplitRatio = ratio;
+    }
 
 }
+
+

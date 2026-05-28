@@ -43,15 +43,5 @@ public partial class PlayerController : CharacterBody3D
     public float Gravity { get; private set; }
     public float JumpVelocity { get; private set; }
 
-    public override void _EnterTree()
-    {
-        if (Instance != null)
-        {
-            QueueFree();
-            return;
-        }
-        Instance = this;
-    }
-
 
 }

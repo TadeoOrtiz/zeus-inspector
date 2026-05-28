@@ -3,7 +3,7 @@ using Godot;
 
 namespace ZeusInspector.Editor;
 
-public class Editor
+public class CustomInspector
 {
     public GodotObject Target { get; set; }
 

@@ -4,7 +4,7 @@ using ZeusInspector.Editor;
 
 
 [CustomEditor(typeof(PlayerController))]
-public class PlayerControllerEditor : Editor
+public class PlayerControllerEditor : CustomInspector
 {
     public PlayerControllerEditor() : base()
     {
