@@ -23,19 +23,28 @@ public partial class ZeusInspectorEditorPlguin : EditorInspectorPlugin
     public override bool _ParseProperty(GodotObject @object, Variant.Type type, string propName, PropertyHint hintType, string hintString, PropertyUsageFlags usageFlags, bool wide)
     {
         var attributes = AttributeResolver.GetAttributes(@object, propName);
-        customInspectors.TryAdd(propName, attributes);
 
+        customInspectors.TryAdd(propName.Capitalize(), attributes);
+        foreach (var attr in attributes)
+        {
+            var editor = attr.CreateEditor(type, propName, hintType, hintString, usageFlags, wide);
+            if (editor != null)
+            {
+                AddPropertyEditor(propName, editor);
+                return true;
+            }
+        }
         return false;
     }
 
     public override void _ParseEnd(GodotObject @object)
     {
         var inspector = EditorInterface.Singleton.GetInspector();
-
-        PrintRecursiveChilds(inspector);
+        ParseEditors(inspector);
+        inspector.PrintTreePretty();
     }
 
-    private void PrintRecursiveChilds(Node node)
+    private void ParseEditors(Node node)
     {
         foreach (var child in node.GetChildren())
         {
@@ -44,16 +53,14 @@ public partial class ZeusInspectorEditorPlguin : EditorInspectorPlugin
             {
                 if (customInspectors.TryGetValue(editorProperty.Label, out var attributes))
                 {
-                    GD.Print($"EditorProperty: {editorProperty.Label}");
                     foreach (var attr in attributes)
                     {
-                        GD.Print($"  - Attribute: {attr.GetType().Name}");
-                        attr.Apply(editorProperty);
+                        attr.ParseEditor(editorProperty);
                     }
                 }
             }
 
-            PrintRecursiveChilds(child);
+            ParseEditors(child);
         }
     }
 

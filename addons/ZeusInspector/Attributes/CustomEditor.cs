@@ -4,14 +4,19 @@ using Godot;
 namespace ZeusInspector.Attributes;
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-public class PreviewFieldAttribute(int size) : InspectorAttribute
+public class CustomEditor<T> : InspectorAttribute where T : EditorProperty
 {
-    private int Size { get; } = size;
-
     public override EditorProperty CreateEditor(Variant.Type type, string propName, PropertyHint hintType, string hintString, PropertyUsageFlags usageFlags, bool wide)
     {
-        var previewResource = new PreviewResource(hintString, Size);
-        return previewResource;
+        var e = Activator.CreateInstance<T>();
+        return e;
+    }
+
+    public override void ParseEditor(EditorProperty editor)
+    {
+        //editor.Label = "";
+        //editor.DrawLabel = false;
+        //editor.Selectable = true;
     }
 
 }

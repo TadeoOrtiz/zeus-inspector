@@ -10,13 +10,13 @@ public enum GroupOrientation
 }
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-public class GroupAttribute(string groupName, GroupOrientation orientation = GroupOrientation.Horizontal, bool showTitle = false) : InspectorAttribute
+public class GroupAttribute(string groupName, GroupOrientation orientation = GroupOrientation.Horizontal, string title = "") : InspectorAttribute
 {
     public string GroupName { get; } = groupName;
     public GroupOrientation Orientation { get; } = orientation;
-    public bool ShowTitle { get; } = showTitle;
+    public string Title { get; } = title;
 
-    public override void Apply(EditorProperty editor)
+    public override void ParseEditor(EditorProperty editor)
     {
         var segments = GroupName.Split('/');
         Container currentParent = editor.GetParent() as Container;
@@ -26,6 +26,7 @@ public class GroupAttribute(string groupName, GroupOrientation orientation = Gro
         {
             string segment = segments[i];
             bool isFirst = i == 0;
+            //GD.Print(segment);
 
             VBoxContainer marco = FindMarco(currentParent, editor, segment);
 
@@ -40,23 +41,47 @@ public class GroupAttribute(string groupName, GroupOrientation orientation = Gro
                 Name = segment,
                 SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
             };
-            marco.Set("theme_override_constants/separation", 10);
+            marco.Set("theme_override_constants/separation", 0);
 
-            if (showTitle)
+            if (!string.IsNullOrEmpty(Title))
             {
                 var label = new Label
                 {
-                    Text = segment,
+                    Text = Title,
+                    Name = $"Label/{segment}",
                     SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter,
                 };
                 marco.AddChild(label);
             }
 
-            Container contentContainer = orientation == GroupOrientation.Vertical
+            Container contentContainer = Orientation == GroupOrientation.Vertical
                 ? new VBoxContainer()
                 : new HBoxContainer();
             contentContainer.Name = $"{segment}__c";
-            contentContainer.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
+
+
+            if (Orientation == GroupOrientation.Horizontal)
+            {
+                contentContainer.GrowHorizontal = Control.GrowDirection.Begin;
+                contentContainer.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
+                contentContainer.SizeFlagsVertical = Control.SizeFlags.ShrinkBegin;
+
+
+                editor.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
+                editor.SizeFlagsHorizontal = Control.SizeFlags.ShrinkBegin;
+            }
+            else
+            {
+                contentContainer.GrowVertical = Control.GrowDirection.Begin;
+                contentContainer.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
+                contentContainer.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
+
+                editor.SizeFlagsVertical = Control.SizeFlags.ShrinkBegin;
+                editor.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
+
+            }
+
+
             marco.AddChild(contentContainer);
 
             if (isFirst)
@@ -72,8 +97,6 @@ public class GroupAttribute(string groupName, GroupOrientation orientation = Gro
             currentParent = contentContainer;
         }
 
-        editor.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
-        editor.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
         editor.Reparent(currentParent);
     }
 

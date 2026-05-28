@@ -42,7 +42,7 @@ public static class AttributeResolver
         {
             result.AddRange(prop.GetCustomAttributes<InspectorAttribute>());
             return result;
-        }
+        } 
 
         return result;
     }

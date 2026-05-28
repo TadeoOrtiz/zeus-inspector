@@ -4,8 +4,5 @@
 
 [resource]
 script = ExtResource("1_ptadt")
-Speed = 0.45
-Health = 10
-Armor = 3
-Mana = 7
+MyArray = null
 metadata/_custom_type_script = "uid://b4a5oerkeutwh"
