@@ -1,101 +1,11 @@
 [gd_scene format=3 uid="uid://sg2tbqe125k"]
 
-[ext_resource type="Script" uid="uid://b4a5oerkeutwh" path="res://Scripts/ZeusInspector/Entity.cs" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://cci0hmp1pw7mt" path="res://Scripts/ZeusInspector/PlayerController.cs" id="1_uu6xs"]
-
-[sub_resource type="Resource" id="Resource_r0du0"]
-script = ExtResource("1_glv2v")
-MyArray = null
-metadata/_custom_type_script = "uid://b4a5oerkeutwh"
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0g564"]
 
 [node name="Entity" type="Node" unique_id=460769669]
 
-[node name="PlayerController" type="CharacterBody3D" parent="." unique_id=668940065]
+[node name="jaslkdjasd" type="CharacterBody3D" parent="." unique_id=668940065]
 script = ExtResource("1_uu6xs")
-PlayerEntity = SubResource("Resource_r0du0")
+numero = -79
 
 [node name="Cosa" type="Node" parent="." unique_id=609545812]
-
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=41357457]
-offset_left = 7.0
-offset_top = 41.0
-offset_right = 1075.0
-offset_bottom = 300.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="VBoxContainer" unique_id=366560165]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "TEXTO"
-
-[node name="Data" type="HBoxContainer" parent="VBoxContainer" unique_id=1321470899]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Left" type="VBoxContainer" parent="VBoxContainer/Data" unique_id=1835625188]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="EditorProperty" type="EditorProperty" parent="VBoxContainer/Data/Left" unique_id=422638154]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-label = "Icon"
-
-[node name="Panel" type="PanelContainer" parent="VBoxContainer/Data/Left/EditorProperty" unique_id=470746797]
-custom_minimum_size = Vector2(0, 200)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxEmpty_0g564")
-
-[node name="EditorResourcePicker" type="EditorResourcePicker" parent="VBoxContainer/Data/Left/EditorProperty/Panel" unique_id=1914858767]
-layout_mode = 2
-
-[node name="EditorProperty2" type="EditorProperty" parent="VBoxContainer/Data/Left" unique_id=1772946343]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-label = "Icon"
-
-[node name="Panel" type="PanelContainer" parent="VBoxContainer/Data/Left/EditorProperty2" unique_id=1498258990]
-custom_minimum_size = Vector2(0, 200)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxEmpty_0g564")
-
-[node name="EditorResourcePicker" type="EditorResourcePicker" parent="VBoxContainer/Data/Left/EditorProperty2/Panel" unique_id=1668602674]
-layout_mode = 2
-
-[node name="Right" type="VBoxContainer" parent="VBoxContainer/Data" unique_id=592332676]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-
-[node name="EditorProperty" type="EditorProperty" parent="VBoxContainer/Data/Right" unique_id=498289416]
-propagate_maximum_size = false
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-label = "asdasd"
-
-[node name="EditorSpinSlider" type="EditorSpinSlider" parent="VBoxContainer/Data/Right/EditorProperty" unique_id=1449744385]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="EditorProperty2" type="EditorProperty" parent="VBoxContainer/Data/Right" unique_id=1424317042]
-propagate_maximum_size = false
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 6
-label = "Textoasdasd"
-
-[node name="EditorSpinSlider2" type="EditorSpinSlider" parent="VBoxContainer/Data/Right/EditorProperty2" unique_id=946054090]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3

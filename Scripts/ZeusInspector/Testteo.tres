@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_ptadt")
-MyArray = null
+MyArray = Array[int]([0, 0, 0, 0, 0, 0])
 metadata/_custom_type_script = "uid://b4a5oerkeutwh"

@@ -1,5 +1,6 @@
 using System;
 using Godot;
+using Godot.Collections;
 
 namespace ZeusInspector.Attributes;
 
@@ -16,10 +17,27 @@ public class GroupAttribute(string groupName, GroupOrientation orientation = Gro
     public GroupOrientation Orientation { get; } = orientation;
     public string Title { get; } = title;
 
+    public static void Cleanup(Node root)
+    {
+        var toRemove = new Godot.Collections.Array<Node>();
+        foreach (var child in root.GetChildren())
+        {
+            if (child.HasMeta("__zeus_group"))
+                toRemove.Add(child);
+            else
+                Cleanup(child);
+        }
+        foreach (var child in toRemove)
+        {
+            root.RemoveChild(child);
+            child.QueueFree();
+        }
+    }
+
     public override void ParseEditor(EditorProperty editor)
     {
+        Container currentParent = FindRootContainer(editor);
         var segments = GroupName.Split('/');
-        Container currentParent = editor.GetParent() as Container;
         var editorIndex = editor.GetIndex();
 
         for (int i = 0; i < segments.Length; i++)
@@ -42,6 +60,7 @@ public class GroupAttribute(string groupName, GroupOrientation orientation = Gro
                 SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
             };
             marco.Set("theme_override_constants/separation", 0);
+            marco.SetMeta("__zeus_group", true);
 
             if (!string.IsNullOrEmpty(Title))
             {
@@ -98,6 +117,29 @@ public class GroupAttribute(string groupName, GroupOrientation orientation = Gro
         }
 
         editor.Reparent(currentParent);
+    }
+
+    private static Container FindRootContainer(EditorProperty editor)
+    {
+        Container current = editor.GetParent() as Container;
+        while (current != null)
+        {
+            var name = current.Name.ToString();
+            if (name.EndsWith("__c"))
+            {
+                current = current.GetParent() as Container;
+                continue;
+            }
+
+            if (current is VBoxContainer marco && GetContentContainer(marco) != null)
+            {
+                current = current.GetParent() as Container;
+                continue;
+            }
+
+            break;
+        }
+        return current ?? editor.GetParent() as Container;
     }
 
     private static VBoxContainer FindMarco(Container parent, Node exclude, string name)

@@ -15,9 +15,9 @@ public class CustomInspector
     /// <summary>
     /// Lista de nombres de propiedades que se deben ocultar en el inspector.
     /// </summary>
-    public List<string> HiddenProperties { get; } = new();
+    public List<string> HiddenProperties { get; } = [];
 
-    public virtual Control CreateInspectorGUI() => new Control();
+    public virtual Control CreateInspectorGUI() => new();
     public virtual EditorProperty CreatePropertyEditor(string name) => null;
 
 

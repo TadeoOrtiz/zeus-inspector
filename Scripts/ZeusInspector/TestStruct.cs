@@ -1,6 +1,10 @@
-using System;
+using Godot;
+using ZeusInspector.Attributes;
 
-[Serializable]
-public struct TestStruct
+[GlobalClass]
+[CreateAssetMenu<TestStruct>("Test/TestStruct")]
+public partial class TestStruct : Resource
 {
+    [Export]
+    public int test;
 }

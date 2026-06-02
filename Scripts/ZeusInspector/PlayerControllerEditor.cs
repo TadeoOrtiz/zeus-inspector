@@ -3,7 +3,7 @@ using Godot;
 using ZeusInspector.Editor;
 
 
-[CustomEditor(typeof(PlayerController))]
+[CustomDock(typeof(PlayerController), EditorDock.DockSlot.Bottom)]
 public class PlayerControllerEditor : CustomInspector
 {
     public PlayerControllerEditor() : base()
@@ -15,7 +15,7 @@ public class PlayerControllerEditor : CustomInspector
         var container = new VBoxContainer();
         var label = new Label
         {
-            Text = $"Wilson",
+            Text = $"{((Node)Target).Name}",
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
             HorizontalAlignment = HorizontalAlignment.Center
         };
@@ -37,25 +37,19 @@ public class PlayerControllerEditor : CustomInspector
             CustomMaximumSize = new Vector2(120, 120),
             //MouseFilter = Control.MouseFilterEnum.Ignore
         };
-        textureRect.MouseEntered += () => label.Text = "¡Hola!";
-        textureRect.MouseExited += () => label.Text = "Wilson";
+        textureRect.MouseEntered += ChangeNumero;
+        textureRect.MouseExited += ChangeNumero;
         container.AddChild(panel);
         panel.AddChild(textureRect);
+        panel.AddChild(GD.Load<PackedScene>("uid://bdy8mysqmujnj").Instantiate());
 
         return container;
     }
 
-
-
-
-    public override EditorProperty CreatePropertyEditor(string name)
+    private void ChangeNumero()
     {
-
-        if (name == PlayerController.PropertyName.WalkSpeed || name == PlayerController.PropertyName.RunSpeed)
-        {
-            return new RandomIntEditor();
-        }
-
-        return base.CreatePropertyEditor(name);
+        Target.Set(PlayerController.PropertyName.WalkSpeed, (int)GD.Randi() % 100);
     }
+
+
 }

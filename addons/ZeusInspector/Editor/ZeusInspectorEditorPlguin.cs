@@ -37,11 +37,14 @@ public partial class ZeusInspectorEditorPlguin : EditorInspectorPlugin
         return false;
     }
 
+
+
     public override void _ParseEnd(GodotObject @object)
     {
         var inspector = EditorInterface.Singleton.GetInspector();
+
+        GroupAttribute.Cleanup(inspector);
         ParseEditors(inspector);
-        inspector.PrintTreePretty();
     }
 
     private void ParseEditors(Node node)
@@ -62,6 +65,7 @@ public partial class ZeusInspectorEditorPlguin : EditorInspectorPlugin
 
             ParseEditors(child);
         }
+
     }
 
 }
