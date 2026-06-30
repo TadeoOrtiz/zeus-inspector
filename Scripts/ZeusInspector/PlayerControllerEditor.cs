@@ -3,7 +3,7 @@ using Godot;
 using ZeusInspector.Editor;
 
 
-[CustomDock(typeof(PlayerController), EditorDock.DockSlot.Bottom)]
+//[CustomDock(typeof(PlayerController), EditorDock.DockSlot.Bottom)]
 public class PlayerControllerEditor : CustomInspector
 {
     public PlayerControllerEditor() : base()

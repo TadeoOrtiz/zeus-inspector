@@ -1,5 +1,11 @@
 [gd_scene format=3 uid="uid://sg2tbqe125k"]
 
+[ext_resource type="Script" uid="uid://cci0hmp1pw7mt" path="res://Scripts/ZeusInspector/PlayerController.cs" id="1_glv2v"]
+
 [node name="Entity" type="Node" unique_id=460769669]
 
 [node name="Cosa" type="Node" parent="." unique_id=609545812]
+
+[node name="PlayerController" type="CharacterBody3D" parent="." unique_id=109027097]
+script = ExtResource("1_glv2v")
+metadata/_custom_type_script = "uid://cci0hmp1pw7mt"

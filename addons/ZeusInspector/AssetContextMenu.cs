@@ -9,15 +9,7 @@ namespace ZeusInspector;
 
 public partial class AssetContextMenu : EditorContextMenuPlugin
 {
-    private readonly List<Callable> _menuCallables = new();
     private string targetFolder;
-
-    private class MenuNode
-    {
-        public string Segment { get; set; }
-        public List<Type> Types { get; } = new();
-        public List<MenuNode> Children { get; } = new();
-    }
 
     private static Texture2D GetTypeIcon(Theme theme, Type type)
     {
@@ -59,11 +51,6 @@ public partial class AssetContextMenu : EditorContextMenuPlugin
         return icon;
     }
 
-    public void ClearMenu()
-    {
-        _menuCallables.Clear();
-    }
-
     public override void _PopupMenu(string[] paths)
     {
         if (paths.Length == 0)
@@ -85,90 +72,75 @@ public partial class AssetContextMenu : EditorContextMenuPlugin
             })
             .ToList();
 
-        var root = new MenuNode();
         var theme = EditorInterface.Singleton.GetEditorTheme();
         var folderIcon = theme.GetIcon("Folder", "EditorIcons");
 
+
+        string[] segments = [];
         foreach (var item in results)
         {
-            var segments = string.IsNullOrEmpty(item.attr.MenuName)
-                ? []
-                : item.attr.MenuName.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            segments = string.IsNullOrEmpty(item.attr.MenuName)
+               ? []
+               : item.attr.MenuName.Split('/', StringSplitOptions.RemoveEmptyEntries);
 
-            var current = root;
 
             if (!item.type.IsSubclassOf(typeof(Resource))) continue;
 
-            foreach (var segment in segments)
+            foreach (var i in segments)
             {
-                var child = current.Children.FirstOrDefault(c => c.Segment == segment);
-                if (child == null)
-                {
-                    child = new MenuNode { Segment = segment };
-                    current.Children.Add(child);
-                }
-                current = child;
+                GD.Print(segments);
             }
-            current.Types.Add(item.type);
         }
 
-        _menuCallables.Clear();
-        int nextId = 0;
 
-        foreach (var type in root.Types)
-        {
-            var callable = Callable.From<string[]>((_p) => CreateAsset(type));
-            _menuCallables.Add(callable);
-            AddContextMenuItem(type.Name, callable, GetTypeIcon(theme, type));
-        }
+        //foreach (var type in root.Types)
+        //{
+        //    var callable = Callable.From<string[]>((_p) => CreateAsset(type));
+        //    _menuCallables.Add(callable);
+        //    AddContextMenuItem(type.Name, Callable.From<long>(ContextMenuPressed), GetTypeIcon(theme, type));
+        //}
 
-        foreach (var child in root.Children)
-        {
-            var popup = new PopupMenu();
-            popup.AddThemeConstantOverride("icon_max_width", 20);
-            var typeById = new Dictionary<int, Type>();
-            BuildMenu(child, popup, typeById, ref nextId, theme, folderIcon);
-            popup.IdPressed += (pressedId) =>
-            {
-                if (typeById.TryGetValue((int)pressedId, out var type))
-                {
-                    CreateAsset(type);
-                }
-            };
+        //foreach (var child in root.Children)
+        //{
+        //    var popup = new PopupMenu();
+        //    popup.AddThemeConstantOverride("icon_max_width", 20);
+        //    var typeById = new Dictionary<int, Type>();
+        //    BuildMenu(child, popup, typeById, ref nextId, theme, folderIcon);
+        //    popup.IdPressed += ContextMenuPressed;
 
-            AddContextSubmenuItem(child.Segment, popup, folderIcon);
-        }
+        //    AddContextSubmenuItem(child.Segment, popup, folderIcon);
+        //}
     }
 
-    private void BuildMenu(MenuNode node, PopupMenu menu, Dictionary<int, Type> typeById, ref int nextId, Theme theme, Texture2D folderIcon)
+    private void ContextMenuPressed(long id)
     {
-        foreach (var child in node.Children)
-        {
-            var childPopup = new PopupMenu();
-            childPopup.AddThemeConstantOverride("icon_max_width", 20);
-            var childTypeById = new Dictionary<int, Type>();
-            BuildMenu(child, childPopup, childTypeById, ref nextId, theme, folderIcon);
-            childPopup.IdPressed += (pressedId) =>
-            {
-                if (childTypeById.TryGetValue((int)pressedId, out var type))
-                {
-                    CreateAsset(type);
-                }
-            };
-
-            menu.AddSubmenuNodeItem(child.Segment, childPopup);
-            menu.SetItemIcon(menu.ItemCount - 1, folderIcon);
-        }
-
-        foreach (var type in node.Types)
-        {
-            var id = nextId++;
-            menu.AddItem(type.Name, id);
-            menu.SetItemIcon(menu.ItemCount - 1, GetTypeIcon(theme, type));
-            typeById[id] = type;
-        }
+        GD.Print("QASDASD");
     }
 
+    /*
+        private void BuildMenu(MenuNode node, PopupMenu menu, Dictionary<int, Type> typeById, ref int nextId, Theme theme, Texture2D folderIcon)
+        {
+            foreach (var child in node.Children)
+            {
+                var childPopup = new PopupMenu();
+                childPopup.AddThemeConstantOverride("icon_max_width", 20);
+                var childTypeById = new Dictionary<int, Type>();
+                BuildMenu(child, childPopup, childTypeById, ref nextId, theme, folderIcon);
+                childPopup.IdPressed += ContextMenuPressed;
+
+                menu.AddSubmenuNodeItem(child.Segment, childPopup);
+                menu.SetItemIcon(menu.ItemCount - 1, folderIcon);
+            }
+
+            foreach (var type in node.Types)
+            {
+                var id = nextId++;
+                menu.AddItem(type.Name, id);
+                menu.SetItemIcon(menu.ItemCount - 1, GetTypeIcon(theme, type));
+                typeById[id] = type;
+            }
+        }
+    */
 
     private void CreateAsset(Type type)
     {
