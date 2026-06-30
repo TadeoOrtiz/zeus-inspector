@@ -44,7 +44,6 @@ public class GroupAttribute(string groupName, GroupOrientation orientation = Gro
         {
             string segment = segments[i];
             bool isFirst = i == 0;
-            //GD.Print(segment);
 
             VBoxContainer marco = FindMarco(currentParent, editor, segment);
 
@@ -84,20 +83,12 @@ public class GroupAttribute(string groupName, GroupOrientation orientation = Gro
                 contentContainer.GrowHorizontal = Control.GrowDirection.Begin;
                 contentContainer.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
                 contentContainer.SizeFlagsVertical = Control.SizeFlags.ShrinkBegin;
-
-
-                editor.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
-                editor.SizeFlagsHorizontal = Control.SizeFlags.ShrinkBegin;
             }
             else
             {
                 contentContainer.GrowVertical = Control.GrowDirection.Begin;
-                contentContainer.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
                 contentContainer.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
-
-                editor.SizeFlagsVertical = Control.SizeFlags.ShrinkBegin;
-                editor.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
-
+                contentContainer.SizeFlagsVertical = Control.SizeFlags.ShrinkBegin;
             }
 
 
@@ -115,6 +106,9 @@ public class GroupAttribute(string groupName, GroupOrientation orientation = Gro
 
             currentParent = contentContainer;
         }
+
+        editor.SizeFlagsVertical = Control.SizeFlags.ShrinkBegin;
+        editor.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
 
         editor.Reparent(currentParent);
     }
@@ -163,3 +157,4 @@ public class GroupAttribute(string groupName, GroupOrientation orientation = Gro
         return null;
     }
 }
+

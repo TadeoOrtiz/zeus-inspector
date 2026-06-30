@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="Entity" format=3 uid="uid://clhcainadw531"]
+
+[ext_resource type="Script" uid="uid://b4a5oerkeutwh" path="res://Scripts/ZeusInspector/Entity.cs" id="1_8g728"]
+
+[resource]
+script = ExtResource("1_8g728")
+metadata/_custom_type_script = "uid://b4a5oerkeutwh"

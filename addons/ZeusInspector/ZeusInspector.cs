@@ -15,20 +15,31 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
 {
 
     private ZeusInspectorEditorPlguin inspectorEditor;
+    private AssetContextMenu assetContextMenu;
+
 
     private readonly Dictionary<CustomDockAttribute, CustomInspector> inspectors = [];
     private readonly Dictionary<CustomDockAttribute, EditorDock> docks = [];
 
+
     public override void _EnterTree()
     {
-        inspectorEditor = new ZeusInspectorEditorPlguin();
-        InitCustomInspectors();
+        inspectorEditor = new();
+        assetContextMenu = new();
+
 
         AddInspectorPlugin(inspectorEditor);
+        AddContextMenuPlugin(EditorContextMenuPlugin.ContextMenuSlot.FilesystemCreate, assetContextMenu);
+
+
+        InitCustomInspectors();
     }
+
+
 
     public override void _ExitTree()
     {
+        assetContextMenu?.ClearMenu();
         foreach (var dock in docks.Values)
         {
             RemoveDock(dock);
@@ -37,6 +48,7 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
         inspectors.Clear();
         docks.Clear();
         RemoveInspectorPlugin(inspectorEditor);
+        RemoveContextMenuPlugin(assetContextMenu);
     }
 
     private void UpdateEditorMap()
@@ -47,20 +59,12 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
 
         foreach (var type in editorTypes)
         {
+            if (type == null) continue;
             var attr = type.GetCustomAttribute<CustomDockAttribute>();
             var editor = (CustomInspector)Activator.CreateInstance(type);
+            if (attr == null || editor == null) continue;
             inspectors.Add(attr, editor);
         }
-    }
-
-
-    public void CreateAssetMenu()
-    {
-
-    }
-
-    public override void _ApplyChanges()
-    {
     }
 
     public override bool _Handles(GodotObject @object)
@@ -125,6 +129,8 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
 
     public void OnBeforeSerialize()
     {
+        RemoveContextMenuPlugin(assetContextMenu);
+        assetContextMenu?.ClearMenu();
         foreach (var dock in docks.Values)
         {
             RemoveDock(dock);
@@ -137,7 +143,6 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
                 dock.RemoveChild(c);
         }
         docks.Clear();
-        GD.Print("Clear customs inspectors");
     }
 
     public void OnAfterDeserialize()
@@ -148,7 +153,6 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
     private void InitCustomInspectors()
     {
         UpdateEditorMap();
-        GD.Print("find custom inspectors");
         foreach (var (attr, inspector) in inspectors)
         {
             var editorDock = new EditorDock
