@@ -1,6 +1,0 @@
-[gd_resource type="Resource" script_class="TestStruct" format=3 uid="uid://bsm37p1dvlgru"]
-
-[ext_resource type="Script" uid="uid://df7m3van51e5j" path="res://Scripts/ZeusInspector/TestStruct.cs" id="1_utcf3"]
-
-[resource]
-script = ExtResource("1_utcf3")
