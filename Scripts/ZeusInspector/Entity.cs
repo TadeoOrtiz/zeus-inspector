@@ -4,7 +4,6 @@ using ZeusInspector.Attributes;
 
 [GlobalClass]
 [Icon("res://Scripts/node/troll.svg")]
-[CreateAssetMenu("Data/Entity")]
 public partial class Entity : Resource
 {
 

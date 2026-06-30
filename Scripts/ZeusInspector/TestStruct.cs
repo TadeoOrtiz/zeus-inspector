@@ -3,7 +3,6 @@ using ZeusInspector.Attributes;
 
 [GlobalClass]
 [Icon("res://Scripts/node/sword.svg")]
-[CreateAssetMenu("Data")]
 public partial class TestStruct : Resource
 {
     /// <summary>

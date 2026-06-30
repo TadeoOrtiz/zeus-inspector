@@ -15,7 +15,6 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
 {
 
     private ZeusInspectorEditorPlguin inspectorEditor;
-    private AssetContextMenu assetContextMenu;
 
 
     private readonly Dictionary<CustomDockAttribute, CustomInspector> inspectors = [];
@@ -25,11 +24,9 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
     public override void _EnterTree()
     {
         inspectorEditor = new();
-        assetContextMenu = new();
 
 
         AddInspectorPlugin(inspectorEditor);
-        AddContextMenuPlugin(EditorContextMenuPlugin.ContextMenuSlot.FilesystemCreate, assetContextMenu);
 
 
         InitCustomInspectors();
@@ -39,7 +36,6 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
 
     public override void _ExitTree()
     {
-        assetContextMenu?.ClearMenu();
         foreach (var dock in docks.Values)
         {
             RemoveDock(dock);
@@ -48,7 +44,6 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
         inspectors.Clear();
         docks.Clear();
         RemoveInspectorPlugin(inspectorEditor);
-        RemoveContextMenuPlugin(assetContextMenu);
     }
 
     private void UpdateEditorMap()
@@ -129,8 +124,6 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
 
     public void OnBeforeSerialize()
     {
-        RemoveContextMenuPlugin(assetContextMenu);
-        assetContextMenu?.ClearMenu();
         foreach (var dock in docks.Values)
         {
             RemoveDock(dock);

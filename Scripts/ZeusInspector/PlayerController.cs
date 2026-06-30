@@ -3,7 +3,6 @@ using ZeusInspector.Attributes;
 
 
 [GlobalClass]
-[CreateAssetMenu("Data/Entity")]
 public partial class PlayerController : CharacterBody3D
 {
     public static PlayerController Instance { get; private set; }
