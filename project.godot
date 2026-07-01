@@ -10,14 +10,10 @@ config_version=5
 
 [application]
 
-config/name="zeus-inspector"
+config/name="ZeusInspector"
 run/main_scene="uid://sg2tbqe125k"
 config/features=PackedStringArray("4.7", "C#")
 
 [dotnet]
 
-project/assembly_name="Plugins"
-
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/ZeusInspector/plugin.cfg")
+project/assembly_name="ZeusInspectorProject"

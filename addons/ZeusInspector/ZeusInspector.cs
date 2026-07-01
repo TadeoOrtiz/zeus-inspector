@@ -17,8 +17,7 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
     private ZeusInspectorEditorPlguin _inspectorEditor;
 
 
-    private readonly Dictionary<CustomDockAttribute, CustomDock> _inspectors = [];
-    private readonly Dictionary<CustomDockAttribute, EditorDock> _docks = [];
+    private readonly Dictionary<CustomDockAttribute, (EditorDock, CustomDock)> _docks = [];
 
 
     private Type _currentObjTypeName;
@@ -32,33 +31,26 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
         InitCustomDocks();
     }
 
-
-
     public override void _ExitTree()
     {
         RemoveCustomDocks();
         RemoveInspectorPlugin(_inspectorEditor);
     }
 
-    
-
     public override bool _Handles(GodotObject @object)
     {
-        foreach (var (attr, inspector) in _inspectors)
+        foreach (var (attr, _) in _docks)
         {
-            if (attr.EditorType == AttributeResolver.ResolveActualType(@object))
+            if (attr.EditorType == AttributeResolver.GetGodotObjectType(@object))
+            {
+                _currentObjTypeName = AttributeResolver.GetGodotObjectType(@object);
+                _currentObjTarget = @object;
                 return true;
+            }
         }
         _currentObjTypeName = null;
         _currentObjTarget = null;
         return false;
-    }
-
-    public override void _Edit(GodotObject @object)
-    {
-        if (@object == null) return;
-        _currentObjTypeName = AttributeResolver.ResolveActualType(@object);
-        _currentObjTarget = @object;
     }
 
 
@@ -66,7 +58,7 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
     {
         if (visible)
         {
-            foreach (var (attr, dock) in _docks)
+            foreach (var (attr, (dock, data)) in _docks)
             {
                 if (attr.EditorType == _currentObjTypeName)
                 {
@@ -74,8 +66,8 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
                         dock.RemoveChild(c);
                     dock.Open();
                     dock.MakeVisible();
-                    _inspectors[attr].Target = _currentObjTarget;
-                    var control = _inspectors[attr].CreateInspectorGUI();
+                    data.Target = _currentObjTarget;
+                    var control = data.CreateInspectorGUI();
                     dock.AddChild(control);
                 }
                 else
@@ -88,7 +80,7 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
         }
         else
         {
-            foreach (var (attr, dock) in _docks)
+            foreach (var (attr, (dock, data)) in _docks)
             {
                 dock.Close();
                 foreach (var c in dock.GetChildren())
@@ -108,7 +100,7 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
         InitCustomDocks();
     }
 
-    private void UpdateDocks()
+    private void InitCustomDocks()
     {
         var assembly = Assembly.GetExecutingAssembly();
         var editorTypes = assembly.GetTypes()
@@ -120,21 +112,13 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
             var attr = type.GetCustomAttribute<CustomDockAttribute>();
             var editor = (CustomDock)Activator.CreateInstance(type);
             if (attr == null || editor == null) continue;
-            _inspectors.Add(attr, editor);
-        }
-    }
 
-    private void InitCustomDocks()
-    {
-        UpdateDocks();
-        foreach (var (attr, inspector) in _inspectors)
-        {
             var editorDock = new EditorDock
             {
                 Title = attr.EditorType.Name,
                 DefaultSlot = attr.DockSlot
             };
-            _docks.Add(attr, editorDock);
+            _docks.Add(attr, (editorDock, editor));
             AddDock(editorDock);
             editorDock.Close();
         }
@@ -142,16 +126,10 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
 
     private void RemoveCustomDocks()
     {
-        foreach (var dock in _docks.Values)
-        {
-            RemoveDock(dock);
-        }
-        _inspectors.Clear();
-        foreach (var (attr, dock) in _docks)
+        foreach (var (_, (dock, _)) in _docks)
         {
             dock.Close();
-            foreach (var c in dock.GetChildren())
-                dock.RemoveChild(c);
+            RemoveDock(dock);
         }
         _docks.Clear();
     }

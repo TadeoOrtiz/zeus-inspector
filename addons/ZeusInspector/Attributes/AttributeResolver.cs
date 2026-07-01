@@ -9,7 +9,7 @@ namespace ZeusInspector.Attributes;
 public static class AttributeResolver
 {
 
-    public static Type ResolveActualType(GodotObject target)
+    public static Type GetGodotObjectType(GodotObject target)
     {
         var type = target.GetType();
 
@@ -28,7 +28,7 @@ public static class AttributeResolver
     public static List<InspectorAttribute> GetAttributes(GodotObject target, string propertyName)
     {
         var result = new List<InspectorAttribute>();
-        var type = ResolveActualType(target);
+        var type = GetGodotObjectType(target);
 
         var field = type.GetField(propertyName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
         if (field != null)

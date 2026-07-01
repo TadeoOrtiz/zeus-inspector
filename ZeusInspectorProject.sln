@@ -1,0 +1,19 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZeusInspectorProject", "ZeusInspectorProject.csproj", "{F16D5331-08E5-4CD2-9F04-0A52664831CC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+	Debug|Any CPU = Debug|Any CPU
+	ExportDebug|Any CPU = ExportDebug|Any CPU
+	ExportRelease|Any CPU = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F16D5331-08E5-4CD2-9F04-0A52664831CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F16D5331-08E5-4CD2-9F04-0A52664831CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F16D5331-08E5-4CD2-9F04-0A52664831CC}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{F16D5331-08E5-4CD2-9F04-0A52664831CC}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{F16D5331-08E5-4CD2-9F04-0A52664831CC}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{F16D5331-08E5-4CD2-9F04-0A52664831CC}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" format=3 uid="uid://b2ejrg82i77h7"]
+
+[ext_resource type="Script" uid="uid://c5ctoi86ipx2u" path="res://Demo/Item.cs" id="1_oqo17"]
+
+[resource]
+script = ExtResource("1_oqo17")
+name = "HOLA JASLKDJASD"
