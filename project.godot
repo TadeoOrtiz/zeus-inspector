@@ -17,3 +17,7 @@ config/features=PackedStringArray("4.7", "C#")
 [dotnet]
 
 project/assembly_name="ZeusInspectorProject"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/ZeusInspector/plugin.cfg")
