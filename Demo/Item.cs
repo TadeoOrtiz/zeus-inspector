@@ -7,7 +7,6 @@ public partial class Item : Resource
 {
     [Export]
     public string name;
-
     [HorizontalGroup("Data", "Data")]
     [Export]
     public int Damage;

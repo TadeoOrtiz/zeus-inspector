@@ -1,5 +1,3 @@
 [gd_scene format=3 uid="uid://sg2tbqe125k"]
 
-[node name="Entity" type="Node" unique_id=460769669]
-
-[node name="Cosa" type="Node" parent="." unique_id=609545812]
+[node name="Main" type="Node" unique_id=460769669]

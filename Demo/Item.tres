@@ -4,4 +4,7 @@
 
 [resource]
 script = ExtResource("1_oqo17")
-name = "HOLA JASLKDJASD"
+name = "Sword"
+Damage = 10
+Durability = 10
+Cost = 100
