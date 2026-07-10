@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ZeusInspector.Generators")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8a43c0ea68cab3c7ff81801e360bfbcd4454dcb1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1b1750d6265d4261eceb8d67686954a1e6b0513a")]
 [assembly: System.Reflection.AssemblyProductAttribute("ZeusInspector.Generators")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ZeusInspector.Generators")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
