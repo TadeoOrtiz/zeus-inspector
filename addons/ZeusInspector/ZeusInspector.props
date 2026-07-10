@@ -1,0 +1,5 @@
+<Project>
+  <ItemGroup>
+    <Analyzer Include="$(MSBuildThisFileDirectory)analyzers\ZeusInspector.Generators.dll" />
+  </ItemGroup>
+</Project>

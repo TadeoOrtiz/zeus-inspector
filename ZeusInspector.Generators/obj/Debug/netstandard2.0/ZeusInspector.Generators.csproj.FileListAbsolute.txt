@@ -1,0 +1,11 @@
+/home/tadeo/dev/godot/zeus-inspector/ZeusInspector.Generators/obj/Debug/netstandard2.0/ZeusInspector.Generators.csproj.AssemblyReference.cache
+/home/tadeo/dev/godot/zeus-inspector/ZeusInspector.Generators/obj/Debug/netstandard2.0/ZeusInspector.Generators.GeneratedMSBuildEditorConfig.editorconfig
+/home/tadeo/dev/godot/zeus-inspector/ZeusInspector.Generators/obj/Debug/netstandard2.0/ZeusInspector.Generators.AssemblyInfoInputs.cache
+/home/tadeo/dev/godot/zeus-inspector/ZeusInspector.Generators/obj/Debug/netstandard2.0/ZeusInspector.Generators.AssemblyInfo.cs
+/home/tadeo/dev/godot/zeus-inspector/ZeusInspector.Generators/obj/Debug/netstandard2.0/ZeusInspector.Generators.csproj.CoreCompileInputs.cache
+/home/tadeo/dev/godot/zeus-inspector/ZeusInspector.Generators/obj/Debug/netstandard2.0/ZeusInspector.Generators.sourcelink.json
+/home/tadeo/dev/godot/zeus-inspector/ZeusInspector.Generators/bin/Debug/netstandard2.0/ZeusInspector.Generators.deps.json
+/home/tadeo/dev/godot/zeus-inspector/ZeusInspector.Generators/bin/Debug/netstandard2.0/ZeusInspector.Generators.dll
+/home/tadeo/dev/godot/zeus-inspector/ZeusInspector.Generators/bin/Debug/netstandard2.0/ZeusInspector.Generators.pdb
+/home/tadeo/dev/godot/zeus-inspector/ZeusInspector.Generators/obj/Debug/netstandard2.0/ZeusInspector.Generators.dll
+/home/tadeo/dev/godot/zeus-inspector/ZeusInspector.Generators/obj/Debug/netstandard2.0/ZeusInspector.Generators.pdb

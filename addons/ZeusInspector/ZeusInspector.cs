@@ -27,6 +27,7 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
     public override void _EnterTree()
     {
         _inspectorEditor = new();
+        CsprojModifier.AddImport();
         AddInspectorPlugin(_inspectorEditor);
         InitCustomDocks();
     }
@@ -35,6 +36,7 @@ public partial class ZeusInspector : EditorPlugin, ISerializationListener
     {
         RemoveCustomDocks();
         RemoveInspectorPlugin(_inspectorEditor);
+        CsprojModifier.RemoveImport();
     }
 
     public override bool _Handles(GodotObject @object)
