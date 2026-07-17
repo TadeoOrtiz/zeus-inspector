@@ -1,9 +1,7 @@
 [gd_scene format=3 uid="uid://sg2tbqe125k"]
 
-[ext_resource type="Script" uid="uid://2kl8thnojbpi" path="res://addons/ZeusInspector/Demo/MiNodoEspecial.cs" id="1_4b87m"]
+[ext_resource type="Script" uid="uid://dm01ht2w1cbw8" path="res://addons/ZeusInspector/Demo/MyNode.cs" id="1_4b87m"]
 
 [node name="Main" type="Node" unique_id=460769669]
 script = ExtResource("1_4b87m")
-data_speed = 10.0
-data_health = 312
-data_label = "default"
+TEstM = 10

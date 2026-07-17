@@ -1,5 +1,11 @@
 <Project>
   <ItemGroup>
     <Analyzer Include="$(MSBuildThisFileDirectory)analyzers\ZeusInspector.Generators.dll" />
+    <!-- Exponer propiedades de Godot al generador -->
+    <CompilerVisibleProperty Include="GodotDisabledSourceGenerators" />
+    <CompilerVisibleProperty Include="GodotProjectDir" />
+    <CompilerVisibleProperty Include="GodotProjectDirBase64" />
+    <CompilerVisibleProperty Include="GodotSourceGenerators" />
+    <CompilerVisibleProperty Include="IsGodotToolsProject" />
   </ItemGroup>
 </Project>

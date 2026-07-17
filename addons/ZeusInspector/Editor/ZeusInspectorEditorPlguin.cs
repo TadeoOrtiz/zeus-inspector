@@ -19,8 +19,16 @@ public partial class ZeusInspectorEditorPlguin : EditorInspectorPlugin
 
     public override bool _ParseProperty(GodotObject @object, Variant.Type type, string propName, PropertyHint hintType, string hintString, PropertyUsageFlags usageFlags, bool wide)
     {
-        var attributes = AttributeResolver.GetAttributes(@object, propName);
 
+        if (type == Variant.Type.Dictionary && hintString != "" && !hintString.Contains(';'))
+        {
+            AddPropertyEditor(propName, new StructEditorProperty());
+        
+            return true;
+        }
+
+
+        var attributes = AttributeResolver.GetAttributes(@object, propName);
         customInspectors.TryAdd(propName.Capitalize(), attributes);
         foreach (var attr in attributes)
         {

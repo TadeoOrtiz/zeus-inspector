@@ -50,9 +50,10 @@
               "target": "Package",
               "version": "[3.3.4, )"
             },
-            "Microsoft.CodeAnalysis.CSharp": {
+            "Microsoft.CodeAnalysis.CSharp.Workspaces": {
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[4.8.0, )"
+              "version": "[3.11.0, )"
             },
             "NETStandard.Library": {
               "suppressParent": "All",
