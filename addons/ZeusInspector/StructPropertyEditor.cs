@@ -3,6 +3,7 @@ using Godot.Collections;
 
 namespace ZeusInspector;
 
+
 [Tool]
 public partial class StructEditorProperty : EditorProperty
 {
@@ -36,12 +37,13 @@ public partial class StructEditorProperty : EditorProperty
                 $"{GetEditedProperty()}:{propName}",
                 PropertyHint.None,
                 "",
-                (uint)PropertyUsageFlags.Default
+                (uint)PropertyUsageFlags.None
             );
             // GD.Print(GetEditedObject().GetIndexed($"{GetEditedProperty()}:{propName}"));
-            // propertyContainer.AddChild(new Label() { Text = $"{propName} - {propValue}" });
+            //propertyContainer.AddChild(new Label() { Text = $"{propName} - {propValue}" });
             editor.SetObjectAndProperty(GetEditedObject(), $"{GetEditedProperty()}:{propName}");
             editor.Label = propName;
+            //editor.Name = propName;
             editor.UpdateProperty();
             propertyContainer.AddChild(editor);
             // editor.Keying = true;

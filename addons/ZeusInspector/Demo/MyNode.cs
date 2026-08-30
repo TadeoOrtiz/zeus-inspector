@@ -1,20 +1,25 @@
 using Godot;
 using Godot.Collections;
+using ZeusInspector;
+using ZeusInspector.Attributes;
 
 public partial class MyNode : Node
 {
     [Export]
-    public int TEstM;
+    [ZExportGroup("Test", orientation: ZExportGroupAttribute.Orientation.Horizontal)]
+    public int attrName_TESTINT;
+    [Export]
+    public int attrName_TESTINsT;
+
+
+
+    // [Export]
+    // public TestStructSerializable TestStruct = new();
 
     [Export]
-    public TestStructSerializable TestStruct = new();
+    [ZExportGroup("Test2", "a_")]
+    public int a_TestGroup;
 
-
-    public override void _Ready()
-    {
-        base._Ready();
-        GD.Print(TestStruct.Nombre);
-    }
 
 }
 

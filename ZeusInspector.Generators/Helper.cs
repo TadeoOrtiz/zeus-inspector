@@ -4,12 +4,12 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ZeusInspector.SourceGenerators
 {
-    public static class Helper
+  public static class Helper
+  {
+    [Conditional("DEBUG")]
+    public static void ThrowIfNull([NotNull] object? value)
     {
-        [Conditional("DEBUG")]
-        public static void ThrowIfNull([NotNull] object? value)
-        {
-            _ = value ?? throw new ArgumentNullException();
-        }
+      _ = value ?? throw new ArgumentNullException();
     }
+  }
 }

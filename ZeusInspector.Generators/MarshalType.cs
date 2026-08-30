@@ -2,74 +2,74 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ZeusInspector.SourceGenerators
 {
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public enum MarshalType
-    {
-        Boolean,
-        Char,
-        SByte,
-        Int16,
-        Int32,
-        Int64,
-        Byte,
-        UInt16,
-        UInt32,
-        UInt64,
-        Single,
-        Double,
-        String,
+  [SuppressMessage("ReSharper", "InconsistentNaming")]
+  public enum MarshalType
+  {
+    Boolean,
+    Char,
+    SByte,
+    Int16,
+    Int32,
+    Int64,
+    Byte,
+    UInt16,
+    UInt32,
+    UInt64,
+    Single,
+    Double,
+    String,
 
-        // Godot structs
-        Vector2,
-        Vector2I,
-        Rect2,
-        Rect2I,
-        Transform2D,
-        Vector3,
-        Vector3I,
-        Basis,
-        Quaternion,
-        Transform3D,
-        Vector4,
-        Vector4I,
-        Projection,
-        Aabb,
-        Color,
-        Plane,
-        Callable,
-        Signal,
+    // Godot structs
+    Vector2,
+    Vector2I,
+    Rect2,
+    Rect2I,
+    Transform2D,
+    Vector3,
+    Vector3I,
+    Basis,
+    Quaternion,
+    Transform3D,
+    Vector4,
+    Vector4I,
+    Projection,
+    Aabb,
+    Color,
+    Plane,
+    Callable,
+    Signal,
 
-        // Enums
-        Enum,
+    // Enums
+    Enum,
 
-        // Arrays
-        ByteArray,
-        Int32Array,
-        Int64Array,
-        Float32Array,
-        Float64Array,
-        StringArray,
-        Vector2Array,
-        Vector3Array,
-        Vector4Array,
-        ColorArray,
-        GodotObjectOrDerivedArray,
-        SystemArrayOfStringName,
-        SystemArrayOfNodePath,
-        SystemArrayOfRid,
+    // Arrays
+    ByteArray,
+    Int32Array,
+    Int64Array,
+    Float32Array,
+    Float64Array,
+    StringArray,
+    Vector2Array,
+    Vector3Array,
+    Vector4Array,
+    ColorArray,
+    GodotObjectOrDerivedArray,
+    SystemArrayOfStringName,
+    SystemArrayOfNodePath,
+    SystemArrayOfRid,
 
-        // Variant
-        Variant,
+    // Variant
+    Variant,
 
-        // Classes
-        GodotObjectOrDerived,
-        StringName,
-        NodePath,
-        Rid,
-        GodotDictionary,
-        GodotArray,
-        GodotStructAsDictionary,
-        GodotGenericDictionary,
-        GodotGenericArray,
-    }
+    // Classes
+    GodotObjectOrDerived,
+    StringName,
+    NodePath,
+    Rid,
+    GodotDictionary,
+    GodotArray,
+    GodotStructAsDictionary,
+    GodotGenericDictionary,
+    GodotGenericArray,
+  }
 }

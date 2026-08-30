@@ -4,20 +4,20 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace ZeusInspector.SourceGenerators
 {
-    [Generator]
-    public class GodotPluginsInitializerGenerator : ISourceGenerator
+  [Generator]
+  public class GodotPluginsInitializerGenerator : ISourceGenerator
+  {
+    public void Initialize(GeneratorInitializationContext context)
     {
-        public void Initialize(GeneratorInitializationContext context)
-        {
-        }
+    }
 
-        public void Execute(GeneratorExecutionContext context)
-        {
-            if (context.IsGodotToolsProject() || context.IsGodotSourceGeneratorDisabled("GodotPluginsInitializer"))
-                return;
+    public void Execute(GeneratorExecutionContext context)
+    {
+      if (context.IsGodotToolsProject() || context.IsGodotSourceGeneratorDisabled("GodotPluginsInitializer"))
+        return;
 
-            string source =
-                @"using System;
+      string source =
+          @"using System;
 using System.Runtime.InteropServices;
 using Godot.Bridge;
 using Godot.NativeInterop;
@@ -56,8 +56,8 @@ namespace GodotPlugins.Game
 }
 ";
 
-            context.AddSource("GodotPlugins.Game.generated",
-                SourceText.From(source, Encoding.UTF8));
-        }
+      context.AddSource("GodotPlugins.Game.generated",
+          SourceText.From(source, Encoding.UTF8));
     }
+  }
 }

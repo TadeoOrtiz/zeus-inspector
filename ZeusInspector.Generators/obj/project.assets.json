@@ -3619,24 +3619,31 @@
     ]
   },
   "packageFolders": {
-    "/home/tadeo/.nuget/packages/": {}
+    "C:\\Users\\tadeo\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/tadeo/dev/godot/zeus-inspector/ZeusInspector.Generators/ZeusInspector.Generators.csproj",
+      "projectUniqueName": "E:\\Dev\\godot\\zeus-inspector\\ZeusInspector.Generators\\ZeusInspector.Generators.csproj",
       "projectName": "ZeusInspector.Generators",
-      "projectPath": "/home/tadeo/dev/godot/zeus-inspector/ZeusInspector.Generators/ZeusInspector.Generators.csproj",
-      "packagesPath": "/home/tadeo/.nuget/packages/",
-      "outputPath": "/home/tadeo/dev/godot/zeus-inspector/ZeusInspector.Generators/obj/",
+      "projectPath": "E:\\Dev\\godot\\zeus-inspector\\ZeusInspector.Generators\\ZeusInspector.Generators.csproj",
+      "packagesPath": "C:\\Users\\tadeo\\.nuget\\packages\\",
+      "outputPath": "E:\\Dev\\godot\\zeus-inspector\\ZeusInspector.Generators\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/home/tadeo/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\tadeo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3690,7 +3697,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "/home/tadeo/.dotnet/sdk/10.0.101/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.111\\RuntimeIdentifierGraph.json"
       }
     }
   }

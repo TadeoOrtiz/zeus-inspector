@@ -4,4 +4,3 @@
 
 [node name="Main" type="Node" unique_id=460769669]
 script = ExtResource("1_4b87m")
-TEstM = 10
