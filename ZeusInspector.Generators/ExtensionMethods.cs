@@ -281,6 +281,9 @@ namespace ZeusInspector.SourceGenerators
     public static bool IsGodotSignalAttribute(this INamedTypeSymbol symbol)
         => symbol.FullQualifiedNameOmitGlobal() == GodotClasses.SignalAttr;
 
+    public static bool IsGodotRpcMemberAttribute(this INamedTypeSymbol symbol)
+        => symbol.FullQualifiedNameOmitGlobal() == GodotClasses.RpcAttr;
+
     public static bool IsGodotMustBeVariantAttribute(this INamedTypeSymbol symbol)
         => symbol.FullQualifiedNameOmitGlobal() == GodotClasses.MustBeVariantAttr;
 

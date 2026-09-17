@@ -126,12 +126,6 @@ namespace ZeusInspector.SourceGenerators
 
             if (typeKind == TypeKind.Struct)
             {
-
-              if ((type as INamedTypeSymbol).IsSerializable)
-              {
-                return MarshalType.GodotStructAsDictionary;
-              }
-
               if (type.ContainingAssembly?.Name == "GodotSharp" &&
                   type.ContainingNamespace?.Name == "Godot")
               {
@@ -160,6 +154,11 @@ namespace ZeusInspector.SourceGenerators
                   { Name: "Variant" } => MarshalType.Variant,
                   _ => null
                 };
+              }
+
+              if ((type as INamedTypeSymbol).IsSerializable)
+              {
+                return MarshalType.GodotStructAsDictionary;
               }
             }
             else if (typeKind == TypeKind.Array)

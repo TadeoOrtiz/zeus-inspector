@@ -14,134 +14,136 @@ namespace ZeusInspector;
 public partial class ZeusInspector : EditorPlugin, ISerializationListener
 {
 
-    private ZeusInspectorEditorPlguin _inspectorEditor;
-    private TestInspectorPlugin _testInspectorEditor;
+  private GroupParserEditor _inspectorEditor;
+  private TestInspectorPlugin _testInspectorEditor;
 
 
-    private readonly Dictionary<CustomDockAttribute, (EditorDock, CustomDock)> _docks = [];
+  private readonly Dictionary<CustomDockAttribute, (EditorDock, CustomDock)> _docks = [];
 
 
-    private Type _currentObjTypeName;
-    private GodotObject _currentObjTarget;
+  private Type _currentObjTypeName;
+  private GodotObject _currentObjTarget;
 
 
-    public override void _EnterTree()
+  public override void _EnterTree()
+  {
+
+    CsprojModifier.AddImportAndItemGroup();
+    CsprojModifier.DisableGodotGenetarors();
+
+    _inspectorEditor = new();
+    _testInspectorEditor = new();
+    InitCustomDocks();
+    AddInspectorPlugin(_testInspectorEditor);
+    AddInspectorPlugin(_inspectorEditor);
+  }
+
+  public override void _ExitTree()
+  {
+    CsprojModifier.RemoveImportAndItemGroup();
+    CsprojModifier.EnableGodotGenerators();
+
+    RemoveCustomDocks();
+    RemoveInspectorPlugin(_inspectorEditor);
+    RemoveInspectorPlugin(_testInspectorEditor);
+  }
+
+  public override bool _Handles(GodotObject @object)
+  {
+    foreach (var (attr, _) in _docks)
     {
-
-        CsprojModifier.AddImport();
-
-        _inspectorEditor = new();
-        _testInspectorEditor = new();
-        InitCustomDocks();
-        AddInspectorPlugin(_testInspectorEditor);
-        AddInspectorPlugin(_inspectorEditor);
+      if (attr.EditorType == AttributeResolver.GetGodotObjectType(@object))
+      {
+        _currentObjTypeName = AttributeResolver.GetGodotObjectType(@object);
+        _currentObjTarget = @object;
+        return true;
+      }
     }
+    _currentObjTypeName = null;
+    _currentObjTarget = null;
+    return false;
+  }
 
-    public override void _ExitTree()
+
+  public override void _MakeVisible(bool visible)
+  {
+    if (visible)
     {
-        CsprojModifier.RemoveImport();
-
-        RemoveCustomDocks();
-        RemoveInspectorPlugin(_inspectorEditor);
-        RemoveInspectorPlugin(_testInspectorEditor);
-    }
-
-    public override bool _Handles(GodotObject @object)
-    {
-        foreach (var (attr, _) in _docks)
+      foreach (var (attr, (dock, data)) in _docks)
+      {
+        if (attr.EditorType == _currentObjTypeName)
         {
-            if (attr.EditorType == AttributeResolver.GetGodotObjectType(@object))
-            {
-                _currentObjTypeName = AttributeResolver.GetGodotObjectType(@object);
-                _currentObjTarget = @object;
-                return true;
-            }
-        }
-        _currentObjTypeName = null;
-        _currentObjTarget = null;
-        return false;
-    }
-
-
-    public override void _MakeVisible(bool visible)
-    {
-        if (visible)
-        {
-            foreach (var (attr, (dock, data)) in _docks)
-            {
-                if (attr.EditorType == _currentObjTypeName)
-                {
-                    foreach (var c in dock.GetChildren())
-                        dock.RemoveChild(c);
-                    dock.Open();
-                    dock.MakeVisible();
-                    data.Target = _currentObjTarget;
-                    var control = data.CreateInspectorGUI();
-                    dock.AddChild(control);
-                }
-                else
-                {
-                    dock.Close();
-                    foreach (var c in dock.GetChildren())
-                        dock.RemoveChild(c);
-                }
-            }
+          foreach (var c in dock.GetChildren())
+            dock.RemoveChild(c);
+          dock.Open();
+          dock.MakeVisible();
+          data.Target = _currentObjTarget;
+          var control = data.CreateInspectorGUI();
+          dock.AddChild(control);
         }
         else
         {
-            foreach (var (attr, (dock, data)) in _docks)
-            {
-                dock.Close();
-                foreach (var c in dock.GetChildren())
-                    dock.RemoveChild(c);
-            }
+          dock.Close();
+          foreach (var c in dock.GetChildren())
+            dock.RemoveChild(c);
         }
+      }
     }
-
-
-    public void OnBeforeSerialize()
+    else
     {
-        RemoveCustomDocks();
+      foreach (var (attr, (dock, data)) in _docks)
+      {
+        dock.Close();
+        foreach (var c in dock.GetChildren())
+          dock.RemoveChild(c);
+      }
     }
+  }
 
-    public void OnAfterDeserialize()
+
+  public void OnBeforeSerialize()
+  {
+    RemoveCustomDocks();
+  }
+
+  public void OnAfterDeserialize()
+  {
+    InitCustomDocks();
+  }
+
+  private void InitCustomDocks()
+  {
+    var assembly = Assembly.GetExecutingAssembly();
+    var editorTypes = assembly.GetTypes()
+        .Where(t => t.IsClass && !t.IsAbstract && typeof(CustomDock).IsAssignableFrom(t) && t != typeof(CustomDock));
+
+    foreach (var type in editorTypes)
     {
-        InitCustomDocks();
-    }
+      if (type == null) continue;
+      var attr = type.GetCustomAttribute<CustomDockAttribute>();
+      var editor = (CustomDock)Activator.CreateInstance(type);
+      if (attr == null || editor == null) continue;
 
-    private void InitCustomDocks()
+      var editorDock = new EditorDock
+      {
+        Title = attr.EditorType.Name,
+        DefaultSlot = attr.DockSlot
+      };
+      _docks.Add(attr, (editorDock, editor));
+      AddDock(editorDock);
+      editorDock.Close();
+    }
+  }
+
+  private void RemoveCustomDocks()
+  {
+    foreach (var (_, (dock, _)) in _docks)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-        var editorTypes = assembly.GetTypes()
-            .Where(t => t.IsClass && !t.IsAbstract && typeof(CustomDock).IsAssignableFrom(t) && t != typeof(CustomDock));
-
-        foreach (var type in editorTypes)
-        {
-            if (type == null) continue;
-            var attr = type.GetCustomAttribute<CustomDockAttribute>();
-            var editor = (CustomDock)Activator.CreateInstance(type);
-            if (attr == null || editor == null) continue;
-
-            var editorDock = new EditorDock
-            {
-                Title = attr.EditorType.Name,
-                DefaultSlot = attr.DockSlot
-            };
-            _docks.Add(attr, (editorDock, editor));
-            AddDock(editorDock);
-            editorDock.Close();
-        }
+      dock.Close();
+      RemoveDock(dock);
     }
-
-    private void RemoveCustomDocks()
-    {
-        foreach (var (_, (dock, _)) in _docks)
-        {
-            dock.Close();
-            RemoveDock(dock);
-        }
-        _docks.Clear();
-    }
+    _docks.Clear();
+  }
 
 }
 #endif

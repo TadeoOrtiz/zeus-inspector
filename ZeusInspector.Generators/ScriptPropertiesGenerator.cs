@@ -406,8 +406,8 @@ namespace ZeusInspector.SourceGenerators
           GodotClasses.ExportGroupAttr => PropertyUsageFlags.Group,
           GodotClasses.ExportSubgroupAttr => PropertyUsageFlags.Subgroup,
           ZeusClasses.ExportCategoryAttr => PropertyUsageFlags.Category,
-          ZeusClasses.ExportGroupAttr => PropertyUsageFlags.Editor,
-          ZeusClasses.ExportSubgroupAttr => PropertyUsageFlags.Editor,
+          ZeusClasses.ExportGroupAttr => PropertyUsageFlags.Group,
+          ZeusClasses.ExportSubgroupAttr => PropertyUsageFlags.Subgroup,
           _ => null
         };
 
